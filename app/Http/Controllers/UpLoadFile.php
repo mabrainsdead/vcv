@@ -12,19 +12,20 @@ class UpLoadFile extends Controller
         $hasFile = $request->hasFile('image');
         if ($hasFile) {
             $file = $request->file('image');
-            dump($file);
-
-            dump(Storage::putFileAs('public', $file, $file->getFilename()));
+            $fileName = $file->getFilename();
+           Storage::disk('public')->putFileAs('',$file, $fileName);
 
             FFMpeg::fromDisk('public')
-                ->open($file->getFilename())
+                ->open($fileName)
                 ->addFilter('-an')
                 ->export()
                 ->toDisk('public')
                 ->inFormat(new \FFMpeg\Format\Video\X264)
-                ->save($file->getFilename() . ".mp4");
+                ->save($fileName . ".mp4");
 
-            return "Ok";
+
+
+            return asset('storage/' . $fileName.".mp4");
 
         }
 
