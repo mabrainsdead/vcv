@@ -25,13 +25,15 @@ class UpLoadFile extends Controller
 
 
 
-            return asset('storage/' . $fileName.".mp4");
+            return view('link', ['video'=> asset('storage/' . $fileName.".mp4")
+            ]);
 
         }
 
-
-
     }
+
+
+
 
 
 }

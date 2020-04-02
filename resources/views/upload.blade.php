@@ -6,6 +6,7 @@
     <p>@csrf
         <label> image</label>
         <input type="file" name="image"/>
+        <input type="checkbox" name="anonimize" value="yes">Excluir header de identificacao
     </p>
     <button type="submit">Upload</button>
 

@@ -21,3 +21,5 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'upload')->name('upload');
 
 Route::POST('/answer', 'UpLoadFile@answer')->name('answer');
+
+Route::view('/link', 'link')->name('link');
