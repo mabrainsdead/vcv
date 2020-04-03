@@ -22,4 +22,4 @@ Route::view('/', 'upload')->name('upload');
 
 Route::POST('/answer', 'UpLoadFile@answer')->name('answer');
 
-Route::view('/link', 'link')->name('link');
+Route::view('/download', 'download')->name('download');
