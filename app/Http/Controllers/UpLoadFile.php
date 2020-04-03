@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use FFMpeg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use mysql_xdevapi\Exception;
 
 class UpLoadFile extends Controller
 {
 
-    public function answer(Request $request)
+    public function answer(Request $request) //abre fun
     {
 
         function convert_mp4($fileName)
@@ -61,22 +62,31 @@ class UpLoadFile extends Controller
 
             if (!$request->input('anonimize'))
                 {
+                    try {
                     convert_mp4($fileName);
                     create_thumbnail($fileName);
                     return view('download', [
                         'video' => asset('storage/' . $fileName . ".mp4"),
                         'thumbnail' => asset('storage/' . $fileName . ".jpg")
                     ]);
+                } catch (FFMpeg\Exception\RuntimeException $e) {
+                        echo "Submeta um arquivo valido!";
+                }
+
 
                 }
-            else
-                {
+            else {
+                try {
+
                     anonimize($fileName);
                     create_thumbnail($fileName);
                     return view('download', [
                         'video' => asset('storage/' . $fileName . ".mp4"),
                         'thumbnail' => asset('storage/' . $fileName . ".jpg")
                     ]);
+                } catch (FFMpeg\Exception\RuntimeException $e) {
+                    echo "Submeta um arquivo valido!";
+                }
 
                 }
 

@@ -1,5 +1,7 @@
 <?php $__env->startSection('content'); ?>
 
+    
+
 <form method="POST" action="<?php echo e(route('answer')); ?>" enctype="multipart/form-data">
     <p><?php echo csrf_field(); ?>
         <label> image</label>

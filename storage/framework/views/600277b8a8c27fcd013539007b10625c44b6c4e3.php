@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, inicial-scale=1.0">
-    <title>Document</title>
+   
+    <title>WavesMed VideoConversor</title>
 </head>
 <body>
 
@@ -11,4 +12,5 @@
 </body>
 
 </html>
+
 <?php /**PATH /var/www/vcv/resources/views/layout.blade.php ENDPATH**/ ?>

@@ -4,6 +4,7 @@
  <video width="400" controls>
      <source src="<?php echo e($video); ?>"><BR>
  </video>
+
  <img src="<?php echo e($thumbnail); ?>" width="400"><BR>
  <a href="<?php echo e($thumbnail); ?>" download>Baixar Thumbnail</a>
 
