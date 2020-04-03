@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BladeDebugConfiguration">
-    <cachePath>$PROJECT_DIR$/storage/framework/cache</cachePath>
+    <cachePath>$PROJECT_DIR$/storage/framework/views</cachePath>
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
