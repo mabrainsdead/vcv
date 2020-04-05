@@ -23,3 +23,5 @@ Route::view('/', 'upload')->name('upload');
 Route::POST('/answer', 'UpLoadFile@answer')->name('answer');
 
 Route::view('/download', 'download')->name('download');
+
+Route::get('/debug', 'HealthController@hello')->name('debug');
