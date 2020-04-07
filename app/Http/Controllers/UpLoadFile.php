@@ -6,12 +6,11 @@ use FFMpeg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use mysql_xdevapi\Exception;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UpLoadFile extends Controller
-{
+class UpLoadFile extends Controller {
 
-    public function answer(Request $request) //abre fun
-    {
+    public function answer(Request $request) {
 
         function convert_mp4($fileName)
         {
@@ -46,35 +45,39 @@ class UpLoadFile extends Controller
                 );
         }
 
-        $hasFile = $request->hasFile('image');
+/*        $hasFile = $request->hasFile('image');*/
 
-        if (!$hasFile)
-        {
+        foreach ($request->file('images') as $file) {
+            echo $file->getClientOriginalName() . "\n";
+        }
+
+
+        /*if (!$hasFile){
             echo "Submeta um arquivo valido!";
         }
 
-        else
-        {
-            $file = $request->file('image');
+        else {
+            $file = $request->file('image[]');
+
+
             $fileName = $file->getFilename();
             Storage::disk('public')->putFileAs('', $file, $fileName);
 
 
-            if (!$request->input('anonimize'))
-                {
-                    try {
+            if (!$request->input('anonimize')){
+                try {
                     convert_mp4($fileName);
                     create_thumbnail($fileName);
                     return view('download', [
                         'video' => asset('storage/' . $fileName . ".mp4"),
                         'thumbnail' => asset('storage/' . $fileName . ".jpg")
                     ]);
-                } catch (FFMpeg\Exception\RuntimeException $e) {
+                }   catch (FFMpeg\Exception\RuntimeException $e) {
                         echo "Submeta um arquivo valido!";
-                }
+                    }
 
 
-                }
+            }
             else {
                 try {
 
@@ -86,18 +89,10 @@ class UpLoadFile extends Controller
                     ]);
                 } catch (FFMpeg\Exception\RuntimeException $e) {
                     echo "Submeta um arquivo valido!";
-                }
+                    }
 
-                }
-
-
-
-        }
+            }
+        }*/
 
     }
-
-
-
-
-
 }
