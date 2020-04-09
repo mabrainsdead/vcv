@@ -1,12 +1,15 @@
 <?php $__env->startSection('content'); ?>
-
+    <?php $__currentLoopData = $videos_url; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $video): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
  <a href="<?php echo e($video); ?>" download>Baixar Video  </a><BR>
  <video width="400" controls>
      <source src="<?php echo e($video); ?>"><BR>
  </video>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+ 
 
- <img src="<?php echo e($thumbnail); ?>" width="400"><BR>
- <a href="<?php echo e($thumbnail); ?>" download>Baixar Thumbnail</a>
+
+
+
 
 
 <?php $__env->stopSection(); ?>

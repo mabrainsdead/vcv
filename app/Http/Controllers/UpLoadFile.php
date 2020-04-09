@@ -45,26 +45,41 @@ class UpLoadFile extends Controller {
                 );
         }
 
-/*        $hasFile = $request->hasFile('image');*/
-
-        foreach ($request->file('images') as $file) {
-            echo $file->getClientOriginalName() . "\n";
-        }
+        $hasFile = $request->hasFile('images');
 
 
-        /*if (!$hasFile){
+
+
+        if (!$hasFile){ //Arquivos nao submetidos
             echo "Submeta um arquivo valido!";
         }
 
-        else {
-            $file = $request->file('image[]');
+        else { //Arquivos submetidos
+
+            $files = $request->file('images');
+            $videos_list = fopen("storage/videos_list.txt", "w") or die("Unable to open file!");
 
 
-            $fileName = $file->getFilename();
-            Storage::disk('public')->putFileAs('', $file, $fileName);
+            foreach ($files as $file) {
 
 
-            if (!$request->input('anonimize')){
+                $fileName = $file->getFilename();
+                Storage::disk('public')->putFileAs('', $file, $fileName);
+                convert_mp4($fileName);
+                fwrite($videos_list, "file '" .$fileName . ".mp4'\n");
+
+            }
+            fclose($videos_list);
+            try {
+                exec("ffmpeg -f concat -safe 0 -i storage/videos_list.txt -c copy storage/output.mp4" );
+            } catch (Exception $e) {
+                echo $e;
+            }
+
+
+            return "ok"; //(view('download', ['videos_url'=>$videos_url_array]);
+
+            /*if (!$request->input('anonimize')){
                 try {
                     convert_mp4($fileName);
                     create_thumbnail($fileName);
@@ -91,8 +106,9 @@ class UpLoadFile extends Controller {
                     echo "Submeta um arquivo valido!";
                     }
 
-            }
-        }*/
+            }*/
+
+        }
 
     }
 }
