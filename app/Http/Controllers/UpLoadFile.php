@@ -54,30 +54,66 @@ class UpLoadFile extends Controller {
             echo "Submeta um arquivo valido!";
         }
 
-        else { //Arquivos submetidos
-
-            $files = $request->file('images');
-            $videos_list = fopen("storage/videos_list.txt", "w") or die("Unable to open file!");
+        else {
+            if ($request->input("concatenate")) { //if concatenar
 
 
-            foreach ($files as $file) {
+                if (!$request->input("anonimize")) {//anonimize
+                    $files = $request->file('images');
+                    $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
+
+                    $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
+                    $video_output = "$videos_list_fileName.mp4";
 
 
-                $fileName = $file->getFilename();
-                Storage::disk('public')->putFileAs('', $file, $fileName);
-                convert_mp4($fileName);
-                fwrite($videos_list, "file '" .$fileName . ".mp4'\n");
+                    foreach ($files as $file) {
 
-            }
-            fclose($videos_list);
-            try {
-                exec("ffmpeg -f concat -safe 0 -i storage/videos_list.txt -c copy storage/output.mp4" );
-            } catch (Exception $e) {
-                echo $e;
-            }
+                        $fileName = $file->getFilename();
+                        Storage::disk('public')->putFileAs('', $file, $fileName);
+                        convert_mp4($fileName);
+                        fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
+
+                    }
+
+                    fclose($videos_list);
+                    try {
+                        exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
+                    } catch (Exception $e) {
+                        echo $e;
+                    }
 
 
-            return "ok"; //(view('download', ['videos_url'=>$videos_url_array]);
+                    return view('download', ['videos_url' => asset($video_output)]);
+                } // fim anonimeze
+                else { // nao anonimize
+                    $files = $request->file('images');
+                    $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
+
+                    $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
+                    $video_output = "$videos_list_fileName.mp4";
+
+
+                    foreach ($files as $file) {
+
+                        $fileName = $file->getFilename();
+                        Storage::disk('public')->putFileAs('', $file, $fileName);
+                        anonimize($fileName);
+                        fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
+
+                    }
+
+                    fclose($videos_list);
+                    try {
+                        exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
+                    } catch (Exception $e) {
+                        echo $e;
+                    }
+
+
+                    return view('download', ['videos_url' => asset($video_output)]);
+
+                } //fim nao anonimize
+            } //fim do if concatenar
 
             /*if (!$request->input('anonimize')){
                 try {

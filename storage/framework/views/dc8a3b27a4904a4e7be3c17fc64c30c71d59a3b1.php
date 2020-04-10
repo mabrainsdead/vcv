@@ -10,6 +10,7 @@
     <form method="POST" name="my_form" action="<?php echo e(route('answer')); ?>" enctype="multipart/form-data">
         <p><?php echo csrf_field(); ?></p>
         <div> <input type="checkbox" name="anonimize" value="yes"/>Excluir header de identificacao </div>
+        <div> <input type="checkbox" name="concatenate" value="yes"/>Concatenar Videos </div>
         <div class="input-group control-group increment" >
             <input type="file" name="images[]" class="form-control">
             <div class="input-group-btn">
