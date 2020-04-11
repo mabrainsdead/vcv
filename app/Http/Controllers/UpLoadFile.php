@@ -14,15 +14,25 @@ class UpLoadFile extends Controller {
 
     public function answer(Request $request) {
 
-        function convert_mp4($fileName)
+
+
+        function convert_mp4($fileName, $water_mark)
         {
-            FFMpeg::fromDisk('public')
-                ->open($fileName)
-                ->addFilter('-an')
-                ->export()
-                ->toDisk('public')
-                ->inFormat(new \FFMpeg\Format\Video\X264)
-                ->save($fileName . ".mp4");
+            if (!$water_mark){
+                FFMpeg::fromDisk('public')
+                    ->open($fileName)
+                    ->addFilter('-an')
+                    ->export()
+                    ->toDisk('public')
+                    ->inFormat(new \FFMpeg\Format\Video\X264)
+                    ->save($fileName . ".mp4");
+            }
+            else {
+                $path = Storage::disk('public')->getAdapter()->getPathPrefix();
+
+                exec("ffmpeg -i $path/$fileName -i " . LOGO . " -filter_complex \"overlay=W-w-5:5\" -codec:a copy $path/$fileName.mp4");
+            }
+
         }
 
         function create_thumbnail($fileName)
@@ -36,15 +46,33 @@ class UpLoadFile extends Controller {
                 ->save($fileName . ".jpg");
         }
 
-        function anonimize($fileName)
-        {
-            $path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        function anonimize($fileName, $water_mark)
+        {$path = Storage::disk('public')->getAdapter()->getPathPrefix();
+            if (!$water_mark){
 
-            exec("ffmpeg -i " .
-                $path . $fileName .
-                " -filter:v 'crop=in_w:in_h/1.15:0.55' -c:a copy " .
-                $path . $fileName . ".mp4"
+
+                exec("ffmpeg -i " .
+                    PATH . $fileName .
+                    " -filter:v 'crop=in_w:in_h/1.15:0.55' -c:a copy " .
+                    $path . $fileName . ".mp4"
                 );
+            }
+            else {
+
+                exec("ffmpeg -i " .
+                    PATH . $fileName .
+                    " -filter:v 'crop=in_w:in_h/1.15:0.55' -c:a copy " .
+                    PATH . "$fileName.mp4"
+                );
+                exec("ffmpeg -i " .
+                    PATH . "$fileName.mp4 " .
+                    "-i " . LOGO .
+                    '" -filter_complex "overlay=W-w-5:5"' .
+                    " -c:a copy " .
+                    PATH . $fileName . ".mp4"
+                );
+            }
+
         }
 
         $hasFile = $request->hasFile('images');
@@ -59,7 +87,12 @@ class UpLoadFile extends Controller {
         else {
             $files = $request->file('images');
 
-             //Define nome de arquivos de armazenamento
+             //Define constantes e variaveis
+
+            define ("LOGO", Storage::disk('public')->getAdapter()->getPathPrefix()."images/logo_waves.png");
+            define ("PATH", Storage::disk('public')->getAdapter()->getPathPrefix());
+
+            $water_mark = $request->input("water_mark");
             $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
             $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
             $video_output = "$videos_list_fileName.mp4";
@@ -72,7 +105,7 @@ class UpLoadFile extends Controller {
                         foreach ($files as $file) {
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
-                            convert_mp4($fileName);
+                            convert_mp4($fileName, $water_mark);
                             fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
                         }
 
@@ -98,7 +131,7 @@ class UpLoadFile extends Controller {
                         foreach ($files as $file) {
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
-                            anonimize($fileName);
+                            anonimize($fileName, $water_mark);
                             fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
                         }
 
