@@ -80,19 +80,17 @@ class UpLoadFile extends Controller {
 
 
                         exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
-                        create_thumbnail("$fileName"); //Cria um thumbnail com o ultimo video
-
-                        return view('download', [
-                            'videos_url' => asset($video_output),
-                            'thumbnail_url' => ($request->input("thumbnail")?asset("/storage/$fileName.jpg"):null)
-                        ]);
+                        ($request->input("thumbnail")?create_thumbnail("$fileName"):""); //Cria um thumbnail com o ultimo video
 
                     } catch (FFMpeg\Exception\RuntimeException $e) {
                         echo "Submeta um arquivo valido!";
                       }
 
 
-
+                    return view('download', [
+                        'videos_url' => asset($video_output),
+                        'thumbnail_url' => ($request->input("thumbnail")?asset("/storage/$fileName.jpg"):null)
+                    ]);
                 } // fim nao-anonimize
 
                 else { // anonimize
@@ -108,13 +106,12 @@ class UpLoadFile extends Controller {
 
 
                         exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
-                        create_thumbnail("$fileName"); //Cria um thumbnail com o ultimo video
+                        ($request->input("thumbnail")?create_thumbnail("$fileName"):""); //Cria um thumbnail com o ultimo video
 
                         return view('download', [
                             'videos_url' => asset($video_output),
                             'thumbnail_url' => ($request->input("thumbnail")?asset("/storage/$fileName.jpg"):null)
                         ]);
-
                     } catch (/*FFMpeg\Exception\RuntimeException*/ Exception $e) {
                         echo "Submeta um arquivo valido!";
                       }
@@ -136,9 +133,12 @@ class UpLoadFile extends Controller {
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
                             convert_mp4($fileName);
-                            create_thumbnail($fileName);
                             $videos_url_array[] = asset("storage/$fileName.mp4");
-                            $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+
+                            if ($request->input("thumbnail")){
+                                create_thumbnail($fileName);
+                                $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+                            }
                         }
 
 
@@ -159,9 +159,12 @@ class UpLoadFile extends Controller {
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
                             anonimize($fileName);
-                            create_thumbnail($fileName);
                             $videos_url_array[] = asset("storage/$fileName.mp4");
-                            $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+                            if ($request->input("thumbnail")){
+                                create_thumbnail($fileName);
+                                $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+                            }
+
                         }
 
                         return view('download', [
