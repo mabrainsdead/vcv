@@ -1,13 +1,25 @@
 <?php $__env->startSection('content'); ?>
-   
-        <a href="<?php echo e($videos_url); ?>" download>Baixar Video  </a><BR>
-        <video width="400" controls>
-            <source src="<?php echo e($videos_url); ?>"><BR>
-        </video>
-       
+   <?php if(isset($video_url_array)): ?>
 
+    <?php $__currentLoopData = $video_url_array; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $video_url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+     <a href="<?php echo e($video_url); ?>" download>Baixar Video  </a><BR>
+     <video width="400" controls>
+         <source src="<?php echo e($video_url); ?>"><BR>
+     </video>
+     <img src="<?php echo e($thumbnails_url_array[$loop->index]); ?>" width="400"><BR>
 
- 
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+   <?php else: ?>
+
+       <a href="<?php echo e($videos_url); ?>" download>Baixar Video  </a><BR>
+       <video width="400" controls>
+           <source src="<?php echo e($videos_url); ?>"><BR>
+       </video>
+       <img src="<?php echo e($thumbnail_url); ?>" width="400"><BR>
+       <a href="<?php echo e($thumbnail_url); ?>" download>Baixar Thumbnail</a>
+   <?php endif; ?>
+
 
 
 

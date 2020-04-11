@@ -55,94 +55,119 @@ class UpLoadFile extends Controller {
         }
 
         else {
+            $files = $request->file('images');
+
+             //Define nome de arquivos de armazenamento
+            $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
+            $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
+            $video_output = "$videos_list_fileName.mp4";
+
             if ($request->input("concatenate")) { //if concatenar
 
 
-                if (!$request->input("anonimize")) {//anonimize
-                    $files = $request->file('images');
-                    $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
-
-                    $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
-                    $video_output = "$videos_list_fileName.mp4";
-
+                if (!$request->input("anonimize")) {//Nao-anonimize
 
                     foreach ($files as $file) {
-
                         $fileName = $file->getFilename();
                         Storage::disk('public')->putFileAs('', $file, $fileName);
                         convert_mp4($fileName);
                         fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
-
                     }
 
                     fclose($videos_list);
+
                     try {
                         exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
-                    } catch (Exception $e) {
+                        create_thumbnail("$fileName"); //Cria um thumbnail com o ultimo video
+
+                    } catch (\Exception $e) {
                         echo $e;
                     }
 
 
-                    return view('download', ['videos_url' => asset($video_output)]);
-                } // fim anonimeze
-                else { // nao anonimize
-                    $files = $request->file('images');
-                    $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
+                    return view('download', [
+                        'videos_url' => asset($video_output),
+                        'thumbnail_url' => asset("/storage/$fileName.jpg")
+                    ]);
+                } // fim nao-anonimize
 
-                    $videos_list = fopen($videos_list_fileName, "w") or die("Unable to open file!");
-                    $video_output = "$videos_list_fileName.mp4";
-
+                else { // anonimize
 
                     foreach ($files as $file) {
-
                         $fileName = $file->getFilename();
                         Storage::disk('public')->putFileAs('', $file, $fileName);
                         anonimize($fileName);
                         fwrite($videos_list, "file '" . $fileName . ".mp4'\n");
-
                     }
 
                     fclose($videos_list);
+
                     try {
                         exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
+                        create_thumbnail("$fileName"); //Cria um thumbnail com o ultimo video
                     } catch (Exception $e) {
                         echo $e;
                     }
 
 
-                    return view('download', ['videos_url' => asset($video_output)]);
+                    return view('download', [
+                        'videos_url' => asset($video_output),
+                        'thumbnail_url' => asset("/storage/$fileName.jpg")
+                    ]);
 
-                } //fim nao anonimize
+                } //fim anonimize
             } //fim do if concatenar
 
-            /*if (!$request->input('anonimize')){
-                try {
-                    convert_mp4($fileName);
-                    create_thumbnail($fileName);
-                    return view('download', [
-                        'video' => asset('storage/' . $fileName . ".mp4"),
-                        'thumbnail' => asset('storage/' . $fileName . ".jpg")
-                    ]);
-                }   catch (FFMpeg\Exception\RuntimeException $e) {
+            else {  //inicio nao concatenar
+                $videos_url_array=array();
+                $thumbnails_url_array=array();
+
+                if (!$request->input('anonimize')){ //Nao-anonimizar
+
+                    try {
+                        foreach ($files as $file){
+                            $fileName = $file->getFilename();
+                            Storage::disk('public')->putFileAs('', $file, $fileName);
+                            convert_mp4($fileName);
+                            create_thumbnail($fileName);
+                            $videos_url_array[] = asset("storage/$fileName.mp4");
+                            $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+                        }
+
+
+                        return view('download', [
+                            'video_url_array' => $videos_url_array,
+                            'thumbnails_url_array'=> $thumbnails_url_array,
+                        ]);
+
+                    }   catch (FFMpeg\Exception\RuntimeException $e) {
+                            echo "Submeta um arquivo valido!";
+                        }
+
+
+                } //fim do nao-anonimizar
+                else { //Inicio anonimizar
+                    try {
+                        foreach ($files as $file){
+                            $fileName = $file->getFilename();
+                            Storage::disk('public')->putFileAs('', $file, $fileName);
+                            anonimize($fileName);
+                            create_thumbnail($fileName);
+                            $videos_url_array[] = asset("storage/$fileName.mp4");
+                            $thumbnails_url_array[] = asset("storage/$fileName.jpg");
+                        }
+
+                        return view('download', [
+                            'video_url_array' => $videos_url_array,
+                            'thumbnails_url_array'=> $thumbnails_url_array,
+                        ]);
+
+                    }   catch (FFMpeg\Exception\RuntimeException $e) {
                         echo "Submeta um arquivo valido!";
-                    }
+                        }
 
-
-            }
-            else {
-                try {
-
-                    anonimize($fileName);
-                    create_thumbnail($fileName);
-                    return view('download', [
-                        'video' => asset('storage/' . $fileName . ".mp4"),
-                        'thumbnail' => asset('storage/' . $fileName . ".jpg")
-                    ]);
-                } catch (FFMpeg\Exception\RuntimeException $e) {
-                    echo "Submeta um arquivo valido!";
-                    }
-
-            }*/
+                } //fim anonimizar
+            } //fim nao concatenar
 
         }
 
