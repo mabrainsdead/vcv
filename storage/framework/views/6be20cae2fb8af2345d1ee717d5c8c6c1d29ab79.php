@@ -6,8 +6,9 @@
      <video width="400" controls>
          <source src="<?php echo e($video_url); ?>"><BR>
      </video>
+     <?php if(!empty($thumbnails_url_array)): ?>
      <img src="<?php echo e($thumbnails_url_array[$loop->index]); ?>" width="400"><BR>
-
+     <?php endif; ?>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
    <?php else: ?>
