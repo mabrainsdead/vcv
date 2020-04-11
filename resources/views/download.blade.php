@@ -8,8 +8,9 @@
      <video width="400" controls>
          <source src="{{$video_url}}"><BR>
      </video>
+     @if (!empty($thumbnails_url_array))
      <img src="{{$thumbnails_url_array[$loop->index]}}" width="400"><BR>
-
+     @endif
         @endforeach
 
    @else (isset($videos_url))

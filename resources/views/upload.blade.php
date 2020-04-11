@@ -24,6 +24,7 @@
         <p>@csrf</p>
         <div> <input type="checkbox" name="anonimize" value="yes"/>Excluir header de identificacao </div>
         <div> <input type="checkbox" name="concatenate" value="yes"/>Concatenar Videos </div>
+        <div> <input type="checkbox" name="thumbnail" value="yes"/>Thumbnails </div>
         <div class="input-group control-group increment" >
             <input type="file" name="images[]" class="form-control">
             <div class="input-group-btn">

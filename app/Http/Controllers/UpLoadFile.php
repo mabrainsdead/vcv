@@ -6,6 +6,8 @@ use FFMpeg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use mysql_xdevapi\Exception;
+use PhpOption\None;
+use PHPUnit\Framework\Constraint\IsFalse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UpLoadFile extends Controller {
@@ -87,7 +89,7 @@ class UpLoadFile extends Controller {
 
                     return view('download', [
                         'videos_url' => asset($video_output),
-                        'thumbnail_url' => asset("/storage/$fileName.jpg")
+                        'thumbnail_url' => ($request->input("thumbnail")?asset("/storage/$fileName.jpg"):null)
                     ]);
                 } // fim nao-anonimize
 
@@ -112,7 +114,7 @@ class UpLoadFile extends Controller {
 
                     return view('download', [
                         'videos_url' => asset($video_output),
-                        'thumbnail_url' => asset("/storage/$fileName.jpg")
+                        'thumbnail_url' => ($request->input("thumbnail")?asset("/storage/$fileName.jpg"):null)
                     ]);
 
                 } //fim anonimize
@@ -137,7 +139,7 @@ class UpLoadFile extends Controller {
 
                         return view('download', [
                             'video_url_array' => $videos_url_array,
-                            'thumbnails_url_array'=> $thumbnails_url_array,
+                            'thumbnails_url_array'=> ($request->input("thumbnail")?$thumbnails_url_array:null),
                         ]);
 
                     }   catch (FFMpeg\Exception\RuntimeException $e) {
@@ -159,7 +161,7 @@ class UpLoadFile extends Controller {
 
                         return view('download', [
                             'video_url_array' => $videos_url_array,
-                            'thumbnails_url_array'=> $thumbnails_url_array,
+                            'thumbnails_url_array'=> ($request->input("thumbnail")?$thumbnails_url_array:null),
                         ]);
 
                     }   catch (FFMpeg\Exception\RuntimeException $e) {
