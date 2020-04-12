@@ -62,14 +62,14 @@ class UpLoadFile extends Controller {
                 exec("ffmpeg -i " .
                     PATH . $fileName .
                     " -filter:v 'crop=in_w:in_h/1.15:0.55' -c:a copy " .
-                    PATH . "$fileName.mp4"
+                    PATH . "$fileName.avi"
                 );
                 exec("ffmpeg -i " .
-                    PATH . "$fileName.mp4 " .
+                    PATH . "$fileName.avi " .
                     "-i " . LOGO .
-                    '" -filter_complex "overlay=W-w-5:5"' .
+                    ' -filter_complex "overlay=W-w-5:5"' .
                     " -c:a copy " .
-                    PATH . $fileName . ".mp4"
+                    PATH . $fileName.".mp4"
                 );
             }
 
