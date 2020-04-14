@@ -54,7 +54,7 @@ class UpLoadFile extends Controller {
                 exec("ffmpeg -i " .
                     PATH . $fileName .
                     " -filter:v 'crop=in_w:in_h/1.15:0.55' -c:a copy " .
-                    $path . $fileName . ".mp4"
+                    PATH . $fileName . ".mp4"
                 );
             }
             else {
@@ -89,8 +89,8 @@ class UpLoadFile extends Controller {
 
              //Define constantes e variaveis
 
-            define ("LOGO", Storage::disk('public')->getAdapter()->getPathPrefix()."images/logo_waves.png");
-            define ("PATH", Storage::disk('public')->getAdapter()->getPathPrefix());
+            define ("LOGO", Storage::disk('img')->path("logo_waves.png"));
+            define ("PATH", Storage::disk('public')->path(""));
 
             $water_mark = $request->input("water_mark");
             $videos_list_fileName = "storage/" . date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
@@ -165,7 +165,7 @@ class UpLoadFile extends Controller {
                         foreach ($files as $file){
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
-                            convert_mp4($fileName);
+                            convert_mp4($fileName, $water_mark);
                             $videos_url_array[] = asset("storage/$fileName.mp4");
 
                             if ($request->input("thumbnail")){
@@ -191,7 +191,7 @@ class UpLoadFile extends Controller {
                         foreach ($files as $file){
                             $fileName = $file->getFilename();
                             Storage::disk('public')->putFileAs('', $file, $fileName);
-                            anonimize($fileName);
+                            anonimize($fileName, $water_mark);
                             $videos_url_array[] = asset("storage/$fileName.mp4");
                             if ($request->input("thumbnail")){
                                 create_thumbnail($fileName);
