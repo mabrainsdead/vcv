@@ -89,7 +89,7 @@ class UpLoadFile extends Controller {
 
              //Define constantes e variaveis
 
-            define ("LOGO", Storage::disk('img')->path("logo_waves.png"));
+            define ("LOGO",  asset('images/logo_waves.png'));//Storage::disk('img')->path("logo_waves.png"));
             define ("PATH", Storage::disk('public')->path(""));
 
             $water_mark = $request->input("water_mark");

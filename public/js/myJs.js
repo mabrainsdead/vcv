@@ -1,11 +1,4 @@
-require('./bootstrap');
-
-
-import $ from 'jquery';
-
-window.$ = window.jQuery = $;
-
-window.$ = $;
+/*Adiciona e remove campos de input*/
 
 $(document).ready(function(){
     var i=1;
@@ -19,6 +12,14 @@ $(document).ready(function(){
     });
 
 });
+
+/*Funcao do spinner*/
+
+$("#my_form").submit(function (event) {
+    $('#divMsg').show();
+});
+
+
 
 
 

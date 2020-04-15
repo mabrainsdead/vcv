@@ -1,9 +1,5 @@
 <?php $__env->startSection('content'); ?>
 
-
-
-
-
 <div class="container">
     <br />
     <br />
@@ -22,35 +18,26 @@
                         <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
                     </tr>
                 </table>
-                <input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit" />
+                <input type="submit" name="submit" id="btnSubmit" class="btn btn-primary btn-lg"  value="Upload" />
             </div>
         </form>
+        <div id="divMsg" style="display: none;">
+            <img src="<?php echo e(asset('images/spinner.gif')); ?>" alt="Please wait.." />
+        </div>
     </div>
 </div>
 
-<?php $__env->stopSection(); ?>
+    <div id="trigger">
+        Trigger
+    </div>
 
+<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script_session'); ?>
-    
 
-    <script>
-        $(document).ready(function(){
-            var i=1;
-            $('#add').click(function(){
-                i++;
-                $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="file" name="images[]" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
-            });
-            $(document).on('click', '.btn_remove', function(){
-                var button_id = $(this).attr("id");
-                $('#row'+button_id+'').remove();
-            });
+    <script src="<?php echo e(asset('/js/myJs.js')); ?>"></script>
 
-        });
-    </script>
-
-
-<?php $__env->stopSection(); ?>
+  <?php $__env->stopSection(); ?>
 
 
 
