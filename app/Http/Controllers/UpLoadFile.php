@@ -18,7 +18,7 @@ class UpLoadFile extends Controller {
 
         function convert_mp4($fileName, $water_mark)
         {
-            if (!$water_mark){
+            if ($water_mark){
                 FFMpeg::fromDisk('public')
                     ->open($fileName)
                     ->addFilter('-an')
@@ -48,7 +48,7 @@ class UpLoadFile extends Controller {
 
         function anonimize($fileName, $water_mark)
         {$path = Storage::disk('public')->getAdapter()->getPathPrefix();
-            if (!$water_mark){
+            if ($water_mark){
 
 
                 exec("ffmpeg -i " .
