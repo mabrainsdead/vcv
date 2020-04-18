@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, inicial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -11,7 +11,7 @@
     <title>WavesMed VideoConversor</title>
 
 </head>
-<body>
+<body >
 <nav id="navBar" class="navbar navbar-light">
     <i class="fas fa-bars"></i>
     <a class="nav-item my-1 ml-auto" id="navItem" href="https://www.wavesmed.cmo.br/login/index.php">Acessar</a>
@@ -32,7 +32,6 @@
         <p class="lead" id="descricao"> Converta seus vídeos e reúna-os em um só arquivo mp4.</p>
     </div>
 
-</div>
 
     @yield('content')
 
