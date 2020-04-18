@@ -45,7 +45,7 @@
            <a href="<?php echo e($thumbnail_url); ?>" download>Thumbnail</a>
        </div>
 
-       
+
    <?php endif; ?>
    </div>
 <?php $__env->stopSection(); ?>

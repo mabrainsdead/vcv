@@ -25,3 +25,5 @@ Route::POST('/answer', 'UpLoadFile@answer')->name('answer');
 Route::view('/download', 'download')->name('download');
 
 Route::get('/debug', 'HealthController@hello')->name('debug');
+
+Route::get( '/answer', function () {return "Submeta um arquivo válido!!"; });

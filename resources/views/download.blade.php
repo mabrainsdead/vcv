@@ -47,8 +47,7 @@
            <a href="{{$thumbnail_url}}" download>Thumbnail</a>
        </div>
 
-       {{--<BR>
-       <a href="{{$thumbnail_url}}" download>Baixar Thumbnail</a>--}}
+
    @endif
    </div>
 @endsection('content')
