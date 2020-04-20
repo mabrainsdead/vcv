@@ -21,11 +21,3 @@ $("#my_form").submit(function (event) {
 
 
 
-$("#navBar").onload(function () {
-alert("teste");
-})
-
-
-
-
-

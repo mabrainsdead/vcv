@@ -13,14 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('upload');
-//});
-
 
 Route::view('/', 'upload')->name('upload');
 
-Route::POST('/answer', 'UpLoadFile@answer')->name('answer');
+Route::post('/answer', 'UpLoadFile@answer')->name('answer');
 
 Route::view('/download', 'download')->name('download');
 

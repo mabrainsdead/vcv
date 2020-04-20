@@ -6,7 +6,7 @@
     <br />
 
     <div class="form-group">
-        <form method="POST" name="my_form" id="my_form" action="<?php echo e(route('answer')); ?>" enctype="multipart/form-data"><?php echo csrf_field(); ?>
+        <form method="POST" action="<?php echo e(route('answer')); ?>" name="my_form" id="my_form" class="form"  enctype="multipart/form-data" ><?php echo csrf_field(); ?>
 
             <div id="divMsg" style="display: none;">
                 <img class="animated-gif" src="<?php echo e(asset('images/spinner.gif')); ?>" alt="Please wait.." />
@@ -31,7 +31,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dynamic_field">
                     <tr>
-                        <td><input type="file" name="images[]"  class="form-control name_list" /></td>
+                        <td><input type="file" name="images[]"  id="inFile" class="form-control name_list" /></td>
                         <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
                     </tr>
                 </table>
@@ -39,7 +39,7 @@
             </div>
             <div>
                 <div id="inputButton">
-                    <input type="submit" name="submit" id="btnSubmit" class="btn btn-primary btn-lg"  value="Upload" />
+                    <input type="submit" name="submit" id="submit" class="btn btn-primary btn-lg"  value="Upload" />
 
                 </div>
 
@@ -51,6 +51,39 @@
             </div>
 
         </form>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-bar-fill">
+                <span class="progress-bar-text">0%</span>
+
+            </div>
+        </div>
+
+        <script>
+            const uploadForm = document.getElementById("my_form");
+            const inFile = document.getElementById("inFile");
+            const progressBarFill = document.querySelector("#progressBar > .progress-bar-fill");
+            const progressBarText = progressBarFill.querySelector(".progress-bar-text");
+            token = document.querySelector('meta[name="csrf-token"]').content;
+
+            uploadForm.addEventListener("submit", uploadFile);
+
+            function uploadFile(e) {
+                /*e.preventDefault();*/
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "<?php echo e(url('/answer')); ?>");
+                xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                xhr.upload.addEventListener("progress", e=> {
+                    const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
+                    progressBarFill.style.width = percent.toFixed(2) + "%";
+                    progressBarText.textContent = percent.toFixed(2) + "%";
+                })
+
+
+                xhr.send(new FormData(uploadForm));
+
+            }
+        </script>
     </div>
 
 
@@ -63,7 +96,7 @@
 
 <?php $__env->startSection('script_session'); ?>
 
-    <script src="<?php echo e(asset('js/myJs.js')); ?>"></script>
+    
 
   <?php $__env->stopSection(); ?>
 
