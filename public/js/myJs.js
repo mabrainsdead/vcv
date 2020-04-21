@@ -20,4 +20,30 @@ $("#my_form").submit(function (event) {
 });
 
 
+/*barra de progresso*/
+
+const uploadForm = document.getElementById("my_form");
+const inFile = document.getElementById("inFile");
+const progressBarFill = document.querySelector("#progressBar > .progress-bar-fill");
+const progressBarText = progressBarFill.querySelector(".progress-bar-text");
+token = document.querySelector('meta[name="csrf-token"]').content;
+
+uploadForm.addEventListener("submit", uploadFile);
+
+function uploadFile(e) {
+    /*e.preventDefault();*/
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "{{ url('/answer')}}");
+    xhr.setRequestHeader('X-CSRF-TOKEN', token);
+    xhr.upload.addEventListener("progress", e=> {
+        const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
+        progressBarFill.style.width = percent.toFixed(2) + "%";
+        progressBarText.textContent = percent.toFixed(2) + "%";
+    })
+
+
+    xhr.send(new FormData(uploadForm));
+
+}
+
 

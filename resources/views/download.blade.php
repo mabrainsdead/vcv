@@ -15,13 +15,13 @@
                 <video controls>
                     <source src="{{$video_url}}" >
                 </video>
-                <a href="{{$video_url}}" download>Vídeo</a>
+                <a href="{{$video_url}}" download>Download Vídeo</a>
             </div>
 
             @if (!empty($thumbnails_url_array))
                 <div id="img_row" class="grid_item">
                     <img src="{{$thumbnails_url_array[$loop->index]}}" />
-                    <a href="{{$thumbnails_url_array[$loop->index]}}" download>Thumbnail</a>
+                    <a href="{{$thumbnails_url_array[$loop->index]}}" download>Download thumbnail</a>
                 </div>
 
             @endif
