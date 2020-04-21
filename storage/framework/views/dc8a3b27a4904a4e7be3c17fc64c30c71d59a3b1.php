@@ -8,9 +8,7 @@
     <div class="form-group">
         <form method="POST" action="<?php echo e(route('answer')); ?>" name="my_form" id="my_form" class="form"  enctype="multipart/form-data" ><?php echo csrf_field(); ?>
 
-            <div id="divMsg" style="display: none;">
-                <img class="animated-gif" src="<?php echo e(asset('images/spinner.gif')); ?>" alt="Please wait.." />
-            </div>
+            
 
             <ul class="nav justify-content-lg-center" id="settings">
                 <li class="nav-item">
@@ -59,31 +57,9 @@
             </div>
         </div>
 
-        <script>
-            const uploadForm = document.getElementById("my_form");
-            const inFile = document.getElementById("inFile");
-            const progressBarFill = document.querySelector("#progressBar > .progress-bar-fill");
-            const progressBarText = progressBarFill.querySelector(".progress-bar-text");
-            token = document.querySelector('meta[name="csrf-token"]').content;
-
-            uploadForm.addEventListener("submit", uploadFile);
-
-            function uploadFile(e) {
-                /*e.preventDefault();*/
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "<?php echo e(url('/answer')); ?>");
-                xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                xhr.upload.addEventListener("progress", e=> {
-                    const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
-                    progressBarFill.style.width = percent.toFixed(2) + "%";
-                    progressBarText.textContent = percent.toFixed(2) + "%";
-                })
-
-
-                xhr.send(new FormData(uploadForm));
-
-            }
-        </script>
+        <div id="divMsg" style="display: none;">
+            <img class="animated-gif" src="<?php echo e(asset('images/spinner.gif')); ?>" alt="Please wait.." />
+        </div>
     </div>
 
 

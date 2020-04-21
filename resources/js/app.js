@@ -7,6 +7,12 @@ window.$ = window.jQuery = $;
 
 window.$ = $;
 
+/*meu JS*/
+
+
+
+
+
 
 
 

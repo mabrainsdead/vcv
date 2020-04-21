@@ -76,7 +76,7 @@
 
 @section('script_session')
 
-    <script src="{{ asset('js/myJs.js') }}"></script>
+    {{--<script src="{{ asset('js/myJs.js') }}"></script>--}}
 
   @endsection('script_session')
 

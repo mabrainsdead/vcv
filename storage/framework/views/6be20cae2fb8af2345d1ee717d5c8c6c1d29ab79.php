@@ -13,13 +13,13 @@
                 <video controls>
                     <source src="<?php echo e($video_url); ?>" >
                 </video>
-                <a href="<?php echo e($video_url); ?>" download>Vídeo</a>
+                <a href="<?php echo e($video_url); ?>" download>Download Vídeo</a>
             </div>
 
             <?php if(!empty($thumbnails_url_array)): ?>
                 <div id="img_row" class="grid_item">
                     <img src="<?php echo e($thumbnails_url_array[$loop->index]); ?>" />
-                    <a href="<?php echo e($thumbnails_url_array[$loop->index]); ?>" download>Thumbnail</a>
+                    <a href="<?php echo e($thumbnails_url_array[$loop->index]); ?>" download>Download thumbnail</a>
                 </div>
 
             <?php endif; ?>

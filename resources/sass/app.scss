@@ -9,3 +9,125 @@
 
 @import '~jquery-ui/themes/base/all.css';
 
+//My css
+#logo {
+    width: 300px;
+}
+
+#navBar {
+    background: #88b77b;
+}
+
+#navItem {
+    color: white;
+    font-size: 18px;
+
+}
+
+#descricao {
+    color: darkgreen;
+}
+
+td:last-child{
+    width: 1%;
+    white-space: nowrap;
+}
+
+span {
+    display: inline-block;
+    padding: 10px;
+}
+
+input[type="checkbox"]  {
+    margin-right: 5px;
+}
+
+#settings {
+    font-size: 19px;
+    margin-bottom: 30px;
+    margin-top:0px;
+}
+
+.jumbotron {
+    padding-left: 20px;
+}
+
+.jumbotron-fluid {
+    margin-bottom: 0;
+}
+
+#inputButton {
+    width: 100px;
+    padding-top: 15px;
+    margin: auto;
+}
+
+img.animated-gif{
+    width: 180px;
+    height: auto;
+    display: block;
+    margin:auto;
+}
+
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns:  130px;
+    grid-template-rows: 140px;
+    background-color: #88b77b;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    margin: 10px auto 10px auto;
+}
+
+.grid_item{
+    height: 120px;
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+}
+.grid_item>a {
+    color: white;
+}
+video, img {
+    height: 100px;
+
+}
+
+#video_row {
+    grid-row: 1;
+}
+
+#img_row {
+    grid-row: 2;
+}
+
+#container_download {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 35px;
+    width: 250px;
+    border: 2px solid darkblue;
+    background: white;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0;
+    background: lightblue;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    transition: width 0.25s;
+}
+
+.progress-bar-text {
+    margin-left: 10px;
+    font-weight: bold;
+    color: darkblue;
+}
+
+
