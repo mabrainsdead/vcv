@@ -72,7 +72,7 @@
 
 <?php $__env->startSection('script_session'); ?>
 
-    
+    <script src="<?php echo e(asset('js/myJs.js')); ?>"></script>
 
   <?php $__env->stopSection(); ?>
 
