@@ -37,15 +37,17 @@
    @else (isset($videos_url))
    <div id="grid" class="grid-container">
         <div id="video_row" class="grid_item">
-            <video >
+            <video controls>
                 <source src="{{$videos_url}}">
             </video>
                 <a href="{{$videos_url}}" download>Vídeo</a>
         </div>
-       <div id="img_row" class="grid_item">
-           <img src="{{$thumbnail_url}}" />
-           <a href="{{$thumbnail_url}}" download>Thumbnail</a>
-       </div>
+       @if (!empty($thumbnail_url))
+           <div id="img_row" class="grid_item">
+               <img src="{{$thumbnail_url}}" />
+               <a href="{{$thumbnail_url}}" download>Thumbnail</a>
+           </div>
+       @endif
 
 
    @endif

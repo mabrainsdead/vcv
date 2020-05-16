@@ -108,7 +108,7 @@ class UpLoadFile extends Controller {
                         fclose($videos_list);
 
 
-                        exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
+                        exec("ffmpeg -f concat -safe 0 -i ". PATH. "$videos_list_fileName -c copy ". PATH .  "$video_output ");
                         ($request->input("thumbnail") ? create_thumbnail("$fileName") : ""); //Cria um thumbnail com o ultimo video
 
                     } catch (FFMpeg\Exception\RuntimeException $e) {
@@ -117,7 +117,7 @@ class UpLoadFile extends Controller {
 
 
                     return view('download', [
-                        'videos_url' => asset($video_output),
+                        'videos_url' => asset("/storage/$video_output"),
                         'thumbnail_url' => ($request->input("thumbnail") ? asset("/storage/$fileName.jpg") : null)
                     ]);
                 } // fim nao-anonimize
@@ -134,11 +134,11 @@ class UpLoadFile extends Controller {
                         fclose($videos_list);
 
 
-                        exec("ffmpeg -f concat -safe 0 -i $videos_list_fileName -c copy $video_output");
+                        exec("ffmpeg -f concat -safe 0 -i ". PATH. "$videos_list_fileName -c copy ". PATH .  "$video_output ");
                         ($request->input("thumbnail") ? create_thumbnail("$fileName") : ""); //Cria um thumbnail com o ultimo video
 
                         return view('download', [
-                            'videos_url' => asset($video_output),
+                            'videos_url' => asset("/storage/$video_output"),
                             'thumbnail_url' => ($request->input("thumbnail") ? asset("/storage/$fileName.jpg") : null)
                         ]);
                     } catch (/*FFMpeg\Exception\RuntimeException*/ Exception $e) {
