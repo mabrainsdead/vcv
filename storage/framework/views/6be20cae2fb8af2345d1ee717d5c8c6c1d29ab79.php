@@ -35,15 +35,17 @@
    <?php else: ?>
    <div id="grid" class="grid-container">
         <div id="video_row" class="grid_item">
-            <video >
+            <video controls>
                 <source src="<?php echo e($videos_url); ?>">
             </video>
                 <a href="<?php echo e($videos_url); ?>" download>Vídeo</a>
         </div>
-       <div id="img_row" class="grid_item">
-           <img src="<?php echo e($thumbnail_url); ?>" />
-           <a href="<?php echo e($thumbnail_url); ?>" download>Thumbnail</a>
-       </div>
+       <?php if(!empty($thumbnail_url)): ?>
+           <div id="img_row" class="grid_item">
+               <img src="<?php echo e($thumbnail_url); ?>" />
+               <a href="<?php echo e($thumbnail_url); ?>" download>Thumbnail</a>
+           </div>
+       <?php endif; ?>
 
 
    <?php endif; ?>

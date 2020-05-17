@@ -89,8 +89,8 @@ class UpLoadFile extends Controller {
             define("PATH", Storage::disk('public')->path(""));
 
             $water_mark = $request->input("water_mark");
-            $videos_list_fileName = /*"storage/" .*/ date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
-            $videos_list = fopen("storage/$videos_list_fileName", "w") or die("Unable to open file!");
+            $videos_list_fileName = date("Ymdhis"); //coloca a data como um chave primaria para nome de arquivo
+            $videos_list = fopen(PATH ."$videos_list_fileName", "w") or die("Unable to open file!");
             $video_output = "$videos_list_fileName.mp4";
 
             if ($request->input("concatenate")) { //if concatenar
