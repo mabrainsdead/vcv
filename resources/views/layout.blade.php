@@ -22,7 +22,7 @@
 
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="https://www.wavesmed.com.br/login/index.php">
-            <img  id="logo" src="{{ asset('images/educacao_saude_logo_site.png') }}" class="d-inline-block align-top">
+            <img  id="logo" src="{{ asset('images/saude_logo.png') }}" class="d-inline-block align-top">
         </a>
     </nav>
 
