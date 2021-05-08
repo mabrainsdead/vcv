@@ -20,18 +20,21 @@ class UpLoadFile extends Controller {
         function convert_mp4($fileName, $water_mark)
         {
             if ($water_mark) {
-                FFMpeg::fromDisk('public')
+		/* FFMpeg::fromDisk('public')
                     ->open($fileName)
                     ->addFilter('-an')
                     ->export()
                     ->toDisk('public')
                     ->inFormat(new \FFMpeg\Format\Video\X264)
-                    ->save($fileName . ".mp4");
+                    ->save($fileName . ".mp4"); */
+                    $path = Storage::disk('public')->getAdapter()->getPathPrefix(); 
+                    exec("ffmpeg -an -i $path/$fileName vcodec libx264 -pix_fmt yuv420p -profile:v baseline -level 3 $path/$fileName.mp4" );   
+                
             } else {
                 $path = Storage::disk('public')->getAdapter()->getPathPrefix();
 
-                exec("ffmpeg -i $path/$fileName -i " . LOGO . " -filter_complex \"overlay=W-w-5:5\" -codec:a copy $path/$fileName.mp4");
-            }
+               exec("ffmpeg -i $path/$fileName -i " . LOGO . "  -filter_complex \"overlay=W-w-5:5\" -codec:a copy $path/$fileName.mp4");
+      }
 
         }
 
